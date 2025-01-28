@@ -60,7 +60,7 @@ async function main() {
   // ////////////////////////
   app.put("/employees/:id", (req, res) => {
     const employeedIdInRequest = req.params.id;
-    const update = validation(req.body);
+    const update = req.body;
     Employee.findByIdAndUpdate(employeedIdInRequest, update, {
       new: true,
       runValidators: true,
@@ -74,9 +74,11 @@ async function main() {
     Employee.findByIdAndDelete(employeedIdInRequest)
       .then((result) => {
         console.log("Document deleted:", result);
+        res.json("Document deleted:", result);
       })
       .catch((err) => {
         console.error("Error:", err);
+        res.json(err);
       });
   });
 }
